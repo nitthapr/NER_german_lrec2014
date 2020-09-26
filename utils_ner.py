@@ -260,9 +260,10 @@ if is_torch_available():
                         sep_token_extra=False,
                         # roberta uses an extra separator b/w pairs of sentences, cf. github.com/pytorch/fairseq/commit/1684e166e3da03f5b600dbb7855cb98ddfcd0805
                         pad_on_left=bool(tokenizer.padding_side == "left"),
-                        pad_token=tokenizer.pad_token_id,
-                        pad_token_segment_id=tokenizer.pad_token_type_id,
-                        pad_token_label_id=self.pad_token_label_id,
+                        #-- Olunlah
+						#-- pad_token=tokenizer.pad_token_id,
+                        #-- pad_token_segment_id=tokenizer.pad_token_type_id,
+                        #-- pad_token_label_id=self.pad_token_label_id,
                     )
                     logger.info(f"Saving features into cached file {cached_features_file}")
                     torch.save(self.features, cached_features_file)
@@ -308,9 +309,9 @@ if is_tf_available():
                 tokenizer,
                 cls_token_at_end=bool(model_type in ["xlnet"]),
                 # xlnet has a cls token at the end
-                # cls_token=tokenizer.cls_token,
+                cls_token=tokenizer.cls_token,
                 cls_token_segment_id=2 if model_type in ["xlnet"] else 0,
-                # sep_token=tokenizer.sep_token,
+                sep_token=tokenizer.sep_token,
                 sep_token_extra=False,
                 # roberta uses an extra separator b/w pairs of sentences, cf. github.com/pytorch/fairseq/commit/1684e166e3da03f5b600dbb7855cb98ddfcd0805
                 #-- pad_on_left=bool(tokenizer.padding_side == "left"),
