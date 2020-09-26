@@ -80,7 +80,7 @@ class TokenClassificationTask:
         tokenizer: PreTrainedTokenizer,
         cls_token_at_end=False,
         cls_token="[CLS]",
-        cls_token_segment_id=1,
+        cls_token_segment_id=0,
         sep_token="[SEP]",
         sep_token_extra=False,
         pad_on_left=False,
@@ -117,7 +117,7 @@ class TokenClassificationTask:
                     label_ids.extend([label_map[label]] + [pad_token_label_id] * (len(word_tokens) - 1))
 
             # Account for [CLS] and [SEP] with "- 2" and with "- 3" for RoBERTa.
-            special_tokens_count = -2 #-- Olunlah  # tokenizer.num_special_tokens_to_add()
+            special_tokens_count = tokenizer.num_special_tokens_to_add()
             if len(tokens) > max_seq_length - special_tokens_count:
                 tokens = tokens[: (max_seq_length - special_tokens_count)]
                 label_ids = label_ids[: (max_seq_length - special_tokens_count)]
@@ -254,14 +254,14 @@ if is_torch_available():
                         cls_token_at_end=bool(model_type in ["xlnet"]),
                         # xlnet has a cls token at the end	
 						#-- olunlah comment out						
-						#-- cls_token=tokenizer.cls_token,
+						cls_token=tokenizer.cls_token,
                         cls_token_segment_id=2 if model_type in ["xlnet"] else 0,
-                        #--sep_token=tokenizer.sep_token,
+                        sep_token=tokenizer.sep_token,
                         sep_token_extra=False,
                         # roberta uses an extra separator b/w pairs of sentences, cf. github.com/pytorch/fairseq/commit/1684e166e3da03f5b600dbb7855cb98ddfcd0805
-                        #-- pad_on_left=bool(tokenizer.padding_side == "left"),
-                        #-- pad_token=tokenizer.pad_token_id,
-                        #-- pad_token_segment_id=tokenizer.pad_token_type_id,
+                        pad_on_left=bool(tokenizer.padding_side == "left"),
+                        pad_token=tokenizer.pad_token_id,
+                        pad_token_segment_id=tokenizer.pad_token_type_id,
                         pad_token_label_id=self.pad_token_label_id,
                     )
                     logger.info(f"Saving features into cached file {cached_features_file}")
