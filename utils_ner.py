@@ -116,7 +116,7 @@ class TokenClassificationTask:
                     # Use the real label id for the first token of the word, and padding ids for the remaining tokens
                     # -- Olunlah 
 					# label_ids.extend([label_map[label]] + [pad_token_label_id] * (len(word_tokens) - 1))
-					label_ids.extend([label_map[label]] + [label_map[label]] * (len(word_tokens) - 1))
+                    label_ids.extend([label_map[label]] + [label_map[label]] * (len(word_tokens) - 1))
 					# -- Olunlah End
 
             # Account for [CLS] and [SEP] with "- 2" and with "- 3" for RoBERTa.
@@ -258,14 +258,14 @@ if is_torch_available():
                         cls_token_at_end=bool(model_type in ["xlnet"]),
                         # xlnet has a cls token at the end	
 						#-- olunlah comment out						
-						cls_token=tokenizer.cls_token,
+                        cls_token=tokenizer.cls_token,
                         cls_token_segment_id=2 if model_type in ["xlnet"] else 0,
                         sep_token=tokenizer.sep_token,
                         sep_token_extra=False,
                         # roberta uses an extra separator b/w pairs of sentences, cf. github.com/pytorch/fairseq/commit/1684e166e3da03f5b600dbb7855cb98ddfcd0805
                         pad_on_left=bool(tokenizer.padding_side == "left"),
                         #-- Olunlah
-						#-- pad_token=tokenizer.pad_token_id,
+                        #-- pad_token=tokenizer.pad_token_id,
                         #-- pad_token_segment_id=tokenizer.pad_token_type_id,
                         #-- pad_token_label_id=self.pad_token_label_id,
                     )
