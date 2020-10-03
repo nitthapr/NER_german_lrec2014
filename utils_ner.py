@@ -86,7 +86,7 @@ class TokenClassificationTask:
         pad_on_left=False,
         pad_token=0,
         pad_token_segment_id=0,
-        pad_token_label_id=0,
+        pad_token_label_id=-100,
         sequence_a_segment_id=0,
         mask_padding_with_zero=True,
     ) -> List[InputFeatures]:
