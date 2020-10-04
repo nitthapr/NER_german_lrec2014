@@ -114,9 +114,9 @@ class TokenClassificationTask:
                 if len(word_tokens) > 0:
                     tokens.extend(word_tokens)
                     # Use the real label id for the first token of the word, and padding ids for the remaining tokens
-                    # -- Olunlah 
-                    # label_ids.extend([label_map[label]] + [pad_token_label_id] * (len(word_tokens) - 1))
-                    label_ids.extend([label_map[label]] + [label_map[label]] * (len(word_tokens) - 1))
+                    # -- Olunlah reverse to old version
+                    label_ids.extend([label_map[label]] + [pad_token_label_id] * (len(word_tokens) - 1))
+                    # label_ids.extend([label_map[label]] + [label_map[label]] * (len(word_tokens) - 1))
                     # -- Add test
                     # -- Olunlah End
 
